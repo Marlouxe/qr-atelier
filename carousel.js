@@ -1,5 +1,6 @@
 
 (function () {
+  var base = 'flyers/';
   var files = ["flyer1_menu.png", "flyer2_parking.png", "flyer3_colis.png", "flyer4_wifi.png", "flyer5_concours.png", "flyer6_salon.png"];
   var i = 0;
   var img = document.getElementById('c-img'), count = document.getElementById('c-count');
@@ -8,14 +9,14 @@
 
   files.forEach(function (f, k) {
     var t = document.createElement('img');
-    t.src = 'flyers/' + f; t.alt = 'Flyer ' + (k + 1);
+    t.src = base + f; t.alt = 'Flyer ' + (k + 1);
     t.addEventListener('click', function () { go(k); });
     thumbs.appendChild(t);
   });
 
   function go(n) {
     i = (n + files.length) % files.length;
-    img.src = limg.src = 'flyers/' + files[i];
+    img.src = limg.src = base + files[i];
     img.alt = limg.alt = 'Flyer ' + (i + 1);
     count.textContent = 'Flyer ' + (i + 1) + ' / ' + files.length;
     Array.prototype.forEach.call(thumbs.children, function (t, k) { t.classList.toggle('active', k === i); });
