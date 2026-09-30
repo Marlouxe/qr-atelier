@@ -13,8 +13,21 @@
 <main>
 
 <header class="intro">
-  <h1>Atelier QR codes</h1>
-  <p>Deux petits ateliers pour apprendre à ne pas se faire piéger. Comptez une vingtaine de minutes, sans aucune connaissance technique.</p>
+  <div class="hero">
+    <svg class="emblem" viewBox="0 0 120 72" aria-hidden="true" focusable="false">
+      <rect class="k" x="0" y="0" width="72" height="72"/>
+      <rect class="w" x="9" y="9" width="54" height="54"/>
+      <rect class="c" x="22" y="22" width="28" height="28"/>
+      <rect class="k" x="84" y="0" width="12" height="12"/>
+      <rect class="b" x="102" y="12" width="12" height="12"/>
+      <rect class="k" x="84" y="30" width="12" height="12"/>
+      <rect class="c" x="108" y="42" width="12" height="12"/>
+      <rect class="k" x="90" y="58" width="12" height="12"/>
+    </svg>
+    <h1>Atelier QR codes</h1>
+    <p>Deux petits ateliers pour apprendre à ne pas se faire piéger. Comptez une vingtaine de minutes, sans aucune connaissance technique.</p>
+    <p class="sticker">Saurez-vous repérer le piège ?</p>
+  </div>
   <ol class="toc">
     <li><a href="#atelier1">Atelier 1 : comprendre ce qu'est un QR code</a></li>
     <li><a href="#atelier2">Atelier 2 : faut-il flasher ce QR code ?</a></li>
@@ -56,11 +69,11 @@
   <ol class="steps">
     <li>Touchez une tuile : elle s'entoure de bleu.</li>
     <li>Touchez une deuxième tuile : les deux échangent leur place. (Sur ordinateur, vous pouvez aussi faire glisser une tuile sur une autre.)</li>
-    <li>Au niveau normal, le bouton <strong>↻</strong> en bas à droite d'une tuile la fait tourner d'un quart de tour.</li>
+    <li>Le bouton <strong>↻</strong>, en bas à droite de chaque tuile, la fait tourner d'un quart de tour. Une tuile est bien placée quand elle est au bon endroit <strong>et</strong> dans le bon sens.</li>
     <li>Regardez l'aperçu à droite et le message en dessous : ils vous disent où vous en êtes.</li>
   </ol>
 
-  <p class="tip"><strong>Par où commencer ?</strong> Cherchez d'abord les trois tuiles qui montrent un gros carré dans un coin, et placez-les aux trois coins du puzzle : en haut à gauche, en haut à droite et en bas à gauche. Le reste s'emboîte ensuite plus facilement. Bloqué ? Le bouton « Coup de pouce » place une tuile au bon endroit.</p>
+  <p class="tip"><strong>Par où commencer ?</strong> Cherchez d'abord les trois tuiles qui montrent un gros carré dans un coin. Placez-les aux trois coins du puzzle (en haut à gauche, en haut à droite, en bas à gauche) et tournez-les jusqu'à ce que le gros carré touche le coin extérieur. Le reste s'emboîte ensuite plus facilement. Bloqué ? Le bouton « Coup de pouce » place une tuile au bon endroit.</p>
 
   <div class="game">
     <div class="controls">
@@ -69,7 +82,7 @@
       <button type="button" class="btn" id="solveBtn">Voir la solution</button>
     </div>
     <div class="options">
-      <label><input type="checkbox" id="easyChk" checked> <span><strong>Niveau facile</strong> (conseillé pour débuter) : les tuiles ne tournent pas et celles qui sont bien placées s'entourent de vert.</span></label>
+      <label><input type="checkbox" id="easyChk"> <span><strong>Niveau facile</strong> : les tuiles sont mélangées mais jamais tournées au départ, et celles qui sont bien placées s'entourent de vert.</span></label>
       <label><input type="checkbox" id="zonesChk" checked> <span><strong>Colorer les zones</strong> pour mieux repérer les gros carrés des coins.</span></label>
     </div>
     <ul class="legend">

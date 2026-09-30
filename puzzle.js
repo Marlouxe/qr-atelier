@@ -81,9 +81,7 @@ function update() {
   } else {
     st.className = "";
     const n = countOk();
-    st.textContent = easy()
-      ? n + " tuile" + (n > 1 ? "s" : "") + " sur 9 bien placée" + (n > 1 ? "s" : "") + ". Le QR code ne peut pas encore être lu."
-      : "Le QR code ne peut pas encore être lu : continuez à déplacer et tourner les tuiles.";
+    st.textContent = n + " tuile" + (n > 1 ? "s" : "") + " sur 9 bien placée" + (n > 1 ? "s" : "") + (easy() ? "." : " (au bon endroit et dans le bon sens).") + " Le QR code ne peut pas encore être lu.";
   }
 }
 function shuffle() {
