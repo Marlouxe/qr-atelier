@@ -1,0 +1,37 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Atelier QR codes</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="carousel.css"></head><body><main>
+<h1>📱 Atelier : saurez-vous repérer le QR code piégé ?</h1>
+<div class="card warn"><strong>⚠️ Attention</strong>
+<p>Cette activité utilise <strong>votre téléphone</strong>. Rien de dangereux : toutes les pages sont fabriquées pour l'atelier, et aucune donnée n'est collectée.</p></div>
+<div class="card"><h2 class="first">La consigne</h2>
+<ol>
+<li>Récupérez les <strong>6 flyers</strong> disposés dans la salle.</li>
+<li>Scannez chaque QR code avec l'appareil photo de votre téléphone.</li>
+<li><strong>Avant d'ouvrir le lien</strong>, observez le flyer et l'adresse affichée, puis notez : ✅ sûr ou ❌ douteux.</li>
+<li>Ouvrez ensuite le lien : la page vous dit si vous aviez raison.</li>
+<li>Sur chaque page, cherchez ce qui aurait pu vous alerter.</li>
+</ol></div>
+<div class="card"><h2 class="first">Les flyers</h2>
+<p class="muted">Touchez un flyer pour l'agrandir, utilisez les flèches pour passer de l'un à l'autre.</p>
+<div class="carousel" id="carousel">
+<button class="nav prev" aria-label="Flyer précédent">‹</button>
+<img id="c-img" src="flyers/flyer1_menu.png" alt="Flyer 1">
+<button class="nav next" aria-label="Flyer suivant">›</button>
+</div>
+<p class="counter" id="c-count">Flyer 1 / 6</p>
+<div class="thumbs" id="c-thumbs"></div>
+</div>
+<div class="lightbox" id="lightbox" hidden>
+<button class="nav prev" aria-label="Précédent">‹</button>
+<img id="l-img" src="" alt="">
+<button class="nav next" aria-label="Suivant">›</button>
+<button class="close" aria-label="Fermer">✕</button>
+</div>
+<div class="card"><h2 class="first">Votre feuille de route</h2>
+<table><tr><th>Flyer</th><th>Mon avis</th></tr>
+<tr><td>Flyer 1</td><td>☐ ✅ &nbsp; ☐ ❌</td></tr><tr><td>Flyer 2</td><td>☐ ✅ &nbsp; ☐ ❌</td></tr><tr><td>Flyer 3</td><td>☐ ✅ &nbsp; ☐ ❌</td></tr><tr><td>Flyer 4</td><td>☐ ✅ &nbsp; ☐ ❌</td></tr><tr><td>Flyer 5</td><td>☐ ✅ &nbsp; ☐ ❌</td></tr><tr><td>Flyer 6</td><td>☐ ✅ &nbsp; ☐ ❌</td></tr>
+</table></div>
+<p class="muted">Animateur : <a href="corrige.html">corrigé</a> (ne pas ouvrir avant la fin !)</p>
+</main><script src="carousel.js"></script></body></html>
