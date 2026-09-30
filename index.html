@@ -8,220 +8,159 @@
 <title>Atelier QR codes</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="carousel.css">
-<style>
-/* Module pédagogique intégré en haut de la page */
-.learning { margin-bottom: 2.4rem; }
-.learning h1 { font-size: 2rem; }
-.learning h2 { margin-top: 2rem; }
-.grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
-.dot { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:middle; }
-.legend span { margin-right:14px; white-space:nowrap; }
-.puzzle { display:flex; flex-wrap:wrap; gap:28px; align-items:flex-start; justify-content:center; }
-#board { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; width:min(420px,92vw);
-  background:var(--line); padding:6px; border-radius:12px; }
-.tile { position:relative; background:#fff; border-radius:6px; cursor:grab; aspect-ratio:1; overflow:hidden;
-  outline:3px solid transparent; transition:outline-color .15s; }
-.tile canvas { width:100%; height:100%; display:block; image-rendering:pixelated; }
-.tile.sel { outline-color:var(--accent); }
-.tile.over { outline-color:var(--ok); }
-.tile button { position:absolute; right:4px; bottom:4px; width:30px; height:30px; border-radius:50%;
-  border:0; background:rgba(59,91,219,.92); color:#fff; font-size:18px; cursor:pointer; line-height:1; }
-.side { display:flex; flex-direction:column; gap:10px; align-items:center; width:220px; }
-#preview { width:200px; height:200px; background:#fff; border-radius:8px; image-rendering:pixelated; border:1px solid var(--line); }
-#status { font-weight:600; text-align:center; min-height:3em; }
-#status.win { color:var(--ok); }
-.controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:12px 0 0; }
-button.btn, input[type=text] { font:inherit; padding:8px 14px; border-radius:8px; border:1px solid var(--line);
-  background:var(--surface); color:var(--fg); cursor:pointer; }
-button.btn:hover { border-color:var(--accent); }
-</style>
 </head>
 <body>
 <main>
 
-<section class="learning" id="apprendre">
-  <h1>Comment fonctionne un QR code ?</h1>
-  <p class="lead">Commence par comprendre ce que tu regardes : un QR code est une grille organisée. Puis teste tes connaissances avec le puzzle.</p>
+<header class="intro">
+  <h1>Atelier QR codes</h1>
+  <p>Deux petits ateliers pour apprendre à ne pas se faire piéger. Comptez une vingtaine de minutes, sans aucune connaissance technique.</p>
+  <ol class="toc">
+    <li><a href="#atelier1">Atelier 1 : comprendre ce qu'est un QR code</a></li>
+    <li><a href="#atelier2">Atelier 2 : faut-il flasher ce QR code ?</a></li>
+    <li><a href="#reflexes">Les bons réflexes à retenir</a></li>
+  </ol>
+</header>
 
-  <div class="card note">
-    <h2>1. Une grille de « modules »</h2>
-    <p>Chaque petit carré s'appelle un <b>module</b>. Noir = 1, blanc = 0.
-    Le plus petit QR code (version 1) mesure <b>21 × 21 modules</b> ; chaque version suivante ajoute 4 modules de côté.</p>
-  </div>
+<!-- ===================== ATELIER 1 ===================== -->
+<section id="atelier1">
+  <h2>Atelier 1 : comprendre ce qu'est un QR code</h2>
 
-  <h2>2. Les zones d'un QR code</h2>
-  <div class="grid2">
-    <div class="card"><p><span class="dot" style="background:#e03131"></span><b>Repères de position</b><br>
-    Les 3 grands carrés dans les coins permettent au scanner de repérer le QR et son orientation, même s'il est tourné.</p></div>
-    <div class="card"><p><span class="dot" style="background:#f08c00"></span><b>Lignes de synchronisation</b><br>
-    Elles alternent noir/blanc et servent de règle pour compter les modules, même lorsque l'image est déformée.</p></div>
-    <div class="card"><p><span class="dot" style="background:#7048e8"></span><b>Informations de format</b><br>
-    Elles indiquent notamment le niveau de correction d'erreur et le masque utilisé pour construire la grille.</p></div>
-    <div class="card"><p><span class="dot" style="background:#1c1e26"></span><b>Données + correction d'erreur</b><br>
-    Les données sont accompagnées d'informations de correction qui permettent au scanner de récupérer une partie des modules abîmés.</p></div>
-  </div>
+  <p>Un QR code est un dessin qui cache une adresse internet. Quand vous le prenez en photo avec votre téléphone, celui-ci déchiffre le dessin et vous propose d'ouvrir cette adresse. C'est tout.</p>
+  <p>Le problème, c'est qu'à l'œil nu, on ne voit pas où il mène. Un escroc peut donc coller un faux QR code sur un vrai : tout le monde le flashera sans se méfier.</p>
 
-  <h2>3. De ton texte à la grille</h2>
-  <div class="card">
-    <ol>
-      <li><b>Encodage</b> : le texte est transformé en données selon un format QR.</li>
-      <li><b>Correction d'erreur</b> : des informations supplémentaires permettent de retrouver des données manquantes.</li>
-      <li><b>Placement</b> : les bits sont placés dans la grille selon des règles précises, en évitant les zones réservées.</li>
-      <li><b>Masquage</b> : le générateur choisit parmi plusieurs motifs pour éviter les formes difficiles à lire.</li>
-      <li><b>Zone de silence</b> : une marge blanche autour du QR aide le scanner à détecter ses bords.</li>
-    </ol>
-  </div>
+  <h3>Ce qu'il faut savoir avant de jouer</h3>
+  <ul>
+    <li>Les <strong>trois gros carrés</strong> dessinés dans les coins (en haut à gauche, en haut à droite et en bas à gauche) sont des repères. Le téléphone s'en sert pour savoir comment lire le dessin, même s'il est penché. Le coin en bas à droite n'en a pas.</li>
+    <li>Tous les <strong>petits carrés noirs et blancs</strong> du reste du dessin forment l'adresse, écrite dans un code que seule une machine sait lire.</li>
+  </ul>
 
-  <h2>4. À toi de jouer : répare le QR code</h2>
-  <p>Le QR ci-dessous est découpé en <b>9 tuiles</b>, déplacées et tournées.
-  Glisse une tuile sur une autre pour les échanger, clique sur deux tuiles, ou utilise <b>↻</b> pour tourner une tuile de 90°.</p>
-
-  <div class="card">
-    <div class="controls">
-      <button class="btn" id="newBtn">Nouveau puzzle</button>
-      <button class="btn" id="solveBtn">Solution</button>
-      <label><input type="checkbox" id="zonesChk" checked> Colorer les zones</label>
+  <details>
+    <summary>Pour les curieux : comment un QR code est construit</summary>
+    <div class="more">
+      <p>Chaque petit carré s'appelle un <strong>module</strong> : noir ou blanc. Le plus petit QR code fait 21 modules de côté, et chaque version supérieure en ajoute 4.</p>
+      <ul>
+        <li><span class="dot f"></span><strong>Repères de position</strong> : les 3 grands carrés des coins.</li>
+        <li><span class="dot t"></span><strong>Lignes de synchronisation</strong> : des pointillés qui servent de règle pour compter les modules.</li>
+        <li><span class="dot m"></span><strong>Informations de format</strong> : elles indiquent comment le code a été construit.</li>
+        <li><span class="dot d"></span><strong>Données</strong> : l'adresse, accompagnée d'informations de secours qui permettent de lire un QR code légèrement abîmé.</li>
+      </ul>
+      <p>Pour fabriquer un QR code, un générateur transforme le texte en données, ajoute les informations de secours, range le tout dans la grille en évitant les zones réservées, puis choisit un motif qui facilite la lecture. Une marge blanche autour du dessin aide enfin le téléphone à en repérer les bords.</p>
     </div>
-    <p class="legend" style="text-align:center;margin:10px 0 18px">
-      <span><i class="dot" style="background:#e03131"></i>repères</span>
-      <span><i class="dot" style="background:#f08c00"></i>synchronisation</span>
-      <span><i class="dot" style="background:#7048e8"></i>format</span>
-      <span><i class="dot" style="background:#1c1e26"></i>données</span>
-    </p>
+  </details>
+
+  <h3>À vous de jouer : remettez le QR code en ordre</h3>
+  <p>Le QR code ci-dessous a été découpé en 9 tuiles, puis mélangé. Votre but : le reconstituer. Quand c'est réussi, l'aperçu à droite devient un vrai QR code.</p>
+
+  <h4>Comment jouer</h4>
+  <ol class="steps">
+    <li>Touchez une tuile : elle s'entoure de bleu.</li>
+    <li>Touchez une deuxième tuile : les deux échangent leur place. (Sur ordinateur, vous pouvez aussi faire glisser une tuile sur une autre.)</li>
+    <li>Au niveau normal, le bouton <strong>↻</strong> en bas à droite d'une tuile la fait tourner d'un quart de tour.</li>
+    <li>Regardez l'aperçu à droite et le message en dessous : ils vous disent où vous en êtes.</li>
+  </ol>
+
+  <p class="tip"><strong>Par où commencer ?</strong> Cherchez d'abord les trois tuiles qui montrent un gros carré dans un coin, et placez-les aux trois coins du puzzle : en haut à gauche, en haut à droite et en bas à gauche. Le reste s'emboîte ensuite plus facilement. Bloqué ? Le bouton « Coup de pouce » place une tuile au bon endroit.</p>
+
+  <div class="game">
+    <div class="controls">
+      <button type="button" class="btn" id="newBtn">Nouveau puzzle</button>
+      <button type="button" class="btn" id="hintBtn">Coup de pouce</button>
+      <button type="button" class="btn" id="solveBtn">Voir la solution</button>
+    </div>
+    <div class="options">
+      <label><input type="checkbox" id="easyChk" checked> <span><strong>Niveau facile</strong> (conseillé pour débuter) : les tuiles ne tournent pas et celles qui sont bien placées s'entourent de vert.</span></label>
+      <label><input type="checkbox" id="zonesChk" checked> <span><strong>Colorer les zones</strong> pour mieux repérer les gros carrés des coins.</span></label>
+    </div>
+    <ul class="legend">
+      <li><span class="dot f"></span>gros carrés des coins (repères)</li>
+      <li><span class="dot t"></span>pointillés</li>
+      <li><span class="dot m"></span>informations de lecture</li>
+      <li><span class="dot d"></span>adresse (données)</li>
+    </ul>
     <div class="puzzle">
       <div id="board"></div>
       <div class="side">
+        <p class="side-title">Aperçu du résultat</p>
         <canvas id="preview" width="29" height="29"></canvas>
-        <div id="status"></div>
+        <p id="status" role="status" aria-live="polite"></p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="flyers">
-  <h1>Atelier : repérer les QR codes piégés</h1>
-  <p class="lead">Maintenant que tu sais comment fonctionne un QR code, applique les bons réflexes aux flyers ci-dessous.</p>
+<!-- ===================== ATELIER 2 ===================== -->
+<section id="atelier2">
+  <h2>Atelier 2 : faut-il flasher ce QR code ?</h2>
+  <p>Vous allez maintenant faire comme dans la vraie vie : tomber sur un QR code, et décider si vous prenez le risque de le flasher.</p>
 
-  <div class="card note">
-    <h2>La consigne</h2>
+  <h3>La consigne</h3>
+  <ol class="steps">
+    <li><strong>Regardez les 6 flyers</strong> plus bas, l'un après l'autre. Touchez un flyer pour l'agrandir et utilisez les flèches pour passer au suivant. Imaginez que vous le croisez dans la rue, dans votre boîte aux lettres ou au restaurant.</li>
+    <li><strong>Faites-vous votre avis, sans rien scanner.</strong> Pour chaque flyer, demandez-vous : « Est-ce que j'oserais flasher ce QR code ? » Répondez oui ou non, et cherchez pourquoi.</li>
+    <li><strong>Flashez ensuite les QR codes</strong> avec votre téléphone, un par un.</li>
+    <li><strong>Lisez la page qui s'ouvre.</strong> Elle vous dit tout de suite si le QR code était sûr ou piégé, et pourquoi. Avez-vous eu raison ?</li>
+  </ol>
+
+  <div class="box">
+    <h4>Comment flasher un QR code</h4>
     <ol>
-      <li>Regarde chaque flyer comme si tu le croisais dans la rue ou dans un commerce.</li>
-      <li>Fais-toi ton propre avis : est-ce que tu scannerais ce QR code ?</li>
-      <li>Si tu utilises un téléphone, lis toujours l'adresse affichée avant d'ouvrir le lien.</li>
+      <li>Ouvrez l'<strong>appareil photo</strong> de votre téléphone. Pas besoin d'application en plus.</li>
+      <li>Pointez-le vers le QR code et attendez une seconde.</li>
+      <li>Une petite bulle avec une adresse apparaît en haut de l'écran. <strong>Lisez-la avant de la toucher.</strong> Si vous ne voulez pas ouvrir la page, ne touchez rien.</li>
     </ol>
+    <p class="note">Un téléphone ne peut pas flasher son propre écran. Affichez cette page sur un ordinateur ou une tablette, ou regardez les flyers imprimés.</p>
   </div>
 
-  <div class="card">
-    <h2>Les flyers</h2>
-    <p class="muted">Touchez un flyer pour l'agrandir, utilisez les flèches pour passer de l'un à l'autre.</p>
-    <div class="carousel" id="carousel">
-      <button class="nav prev" aria-label="Flyer précédent">‹</button>
-      <img id="c-img" src="flyers/flyer1_menu.png" alt="Flyer 1">
-      <button class="nav next" aria-label="Flyer suivant">›</button>
-    </div>
-    <p class="counter" id="c-count">Flyer 1 / 6</p>
-    <div class="thumbs" id="c-thumbs"></div>
+  <h3>Les flyers</h3>
+  <div class="carousel" id="carousel">
+    <button type="button" class="nav prev" aria-label="Flyer précédent">‹</button>
+    <img id="c-img" src="flyers/flyer1_menu.png" alt="Flyer 1">
+    <button type="button" class="nav next" aria-label="Flyer suivant">›</button>
   </div>
+  <p class="counter" id="c-count">Flyer 1 / 6</p>
+  <div class="thumbs" id="c-thumbs"></div>
 
   <div class="lightbox" id="lightbox" hidden>
-    <button class="nav prev" aria-label="Précédent">‹</button>
+    <button type="button" class="nav prev" aria-label="Précédent">‹</button>
     <img id="l-img" src="" alt="">
-    <button class="nav next" aria-label="Suivant">›</button>
-    <button class="close" aria-label="Fermer">✕</button>
+    <button type="button" class="nav next" aria-label="Suivant">›</button>
+    <button type="button" class="close" aria-label="Fermer">✕</button>
+  </div>
+</section>
+
+<!-- ===================== RÉFLEXES ===================== -->
+<section id="reflexes">
+  <h2>Les bons réflexes à retenir</h2>
+  <p>Les arnaques au QR code fonctionnent presque toujours de la même façon : on vous pousse à agir vite, sans réfléchir. Un QR code honnête vous donne simplement une information, comme un menu, un programme ou le Wi-Fi d'un lieu. Un QR code piégé, lui, vous demande quelque chose : de l'argent, un mot de passe ou vos données.</p>
+
+  <div class="cols">
+    <div class="col stop">
+      <h3>Mieux vaut s'abstenir</h3>
+      <ul>
+        <li>Un message <strong>urgent</strong> : « avant ce soir », « dernière chance », « votre colis sera renvoyé ».</li>
+        <li>Tout ce qui demande de <strong>payer</strong>, même une toute petite somme.</li>
+        <li>Un <strong>gain</strong> ou un cadeau : « vous avez gagné un iPhone ».</li>
+        <li>Un QR code <strong>collé</strong> sur une borne, un panneau ou une vitrine, surtout s'il est de travers ou dépasse d'un autre.</li>
+        <li>Une page qui réclame un <strong>mot de passe</strong>, un code reçu par SMS ou un numéro de carte bancaire.</li>
+      </ul>
+    </div>
+    <div class="col go">
+      <h3>Plutôt raisonnable</h3>
+      <ul>
+        <li>Un QR code qui renvoie vers une <strong>information</strong> : menu, programme, Wi-Fi.</li>
+        <li>Imprimé <strong>proprement</strong>, dans un lieu cohérent, avec le nom de l'organisateur.</li>
+        <li>Dans tous les cas, <strong>lire l'adresse</strong> que propose l'appareil photo avant d'ouvrir le lien.</li>
+      </ul>
+    </div>
   </div>
 
-  <h2 style="margin-top:1.8em">Scanner ou pas : quelques repères</h2>
-  <div class="split">
-    <div class="card"><h2 class="bad">Mieux vaut s'abstenir</h2>
-    <p>Prudence dès qu'on vous met la pression, qu'on vous demande de payer, de saisir un mot de passe, un code reçu par SMS ou un numéro de carte, ou lorsque le gain paraît trop beau. Même prudence avec un colis inattendu ou un QR collé dans l'espace public.</p></div>
-    <div class="card"><h2 class="good">Plutôt raisonnable</h2>
-    <p>Un QR peut simplement servir de raccourci vers un menu, un programme ou le Wi-Fi d'un lieu. Dans tous les cas, lisez l'adresse affichée avant d'ouvrir le lien ; pour l'argent ou un compte, préférez l'application ou le site officiel.</p></div>
-  </div>
+  <p class="tip">Pour payer ou vous connecter à un compte, passez toujours par l'application ou le site officiel, que vous ouvrez vous-même.</p>
 </section>
 
 </main>
 
-<script>
-const target = [[1,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,0,1,1,1,1,0,0,1,0,0,1,1,1,1,1,1,1],[1,0,0,0,0,0,1,0,1,1,1,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,1,0,0,0,0,0,1],[1,0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,0,0,0,1,0,1,1,0,1,0,1,1,1,0,1],[1,0,1,1,1,0,1,0,1,1,0,1,0,0,1,1,1,1,1,0,1,0,0,1,1,0,1,0,1,1,1,0,1],[1,0,1,1,1,0,1,0,0,0,0,0,0,1,1,0,1,0,1,1,0,1,0,1,0,0,1,0,1,1,1,0,1],[1,0,0,0,0,0,1,0,1,0,0,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,1],[1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,0,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0],[1,1,0,0,1,1,1,0,0,0,0,1,0,1,1,1,1,0,1,1,1,1,0,0,1,0,0,1,0,1,1,1,1],[1,1,0,0,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,0,1,0,0],[1,1,1,1,1,0,1,0,1,0,0,1,1,1,1,1,0,0,1,0,0,0,0,1,1,1,0,0,1,0,1,1,0],[0,0,1,1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,0,0,1,0,0,1,0,0,0,1,1,0,0,0],[1,1,1,1,0,1,1,1,1,0,1,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,1,1,1,1,0,1,1],[1,1,1,1,0,0,0,1,1,0,0,0,0,1,1,0,1,0,1,1,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,1,1,0,0,1,0,0,1,1,1,0,0,0,1,1,1,0],[0,0,0,1,0,0,0,1,0,0,0,0,1,0,1,0,0,1,1,1,1,1,1,0,1,1,0,0,0,1,0,0,0],[0,1,0,0,0,1,1,0,0,0,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,0,1,0,1,0,0,0,1],[0,0,1,0,1,0,0,1,1,1,1,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,1,0,1,0,0,0],[1,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,0,0,1,0,1,1,0,1,1,0,0,0,1,0,1,1,0],[0,1,0,0,0,1,0,1,0,1,1,1,0,1,0,1,1,0,0,1,1,1,0,1,1,0,1,1,0,1,0,0,0],[1,0,1,0,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,1,1,0,1,1,1,0,0,0,1],[1,0,1,0,0,1,0,1,1,1,0,0,0,1,1,0,1,0,1,1,0,0,0,1,0,1,0,1,0,1,0,0,0],[0,0,1,1,1,0,1,0,1,1,1,0,0,0,0,0,1,1,0,0,1,1,0,1,1,1,0,1,0,0,1,1,0],[0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,1,0,0,1,1,0,1,1,0,0,0,0,0,0,0],[1,1,0,0,1,0,1,1,1,0,1,1,0,1,1,1,1,0,1,0,0,0,1,1,1,1,1,1,1,1,0,1,0],[0,0,0,0,0,0,0,0,1,1,1,0,1,0,0,0,0,1,0,0,1,0,1,0,1,0,0,0,1,1,1,1,0],[1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1,0,1,1,1,0,1,0,1,0,1,0,1,1,0],[1,0,0,0,0,0,1,0,1,0,0,1,0,1,0,1,1,0,0,1,1,1,0,0,1,0,0,0,1,0,0,1,1],[1,0,1,1,1,0,1,0,1,0,1,0,1,1,0,0,0,0,0,1,0,1,1,0,1,1,1,1,1,1,0,1,0],[1,0,1,1,1,0,1,0,0,1,1,0,0,1,1,0,1,0,1,0,0,0,1,1,0,1,1,0,1,1,1,1,0],[1,0,1,1,1,0,1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,1,1,0,1,0,0],[1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,1,1,0,1,1,0,1,1,1,1,0,0,0,0,0,0],[1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,1,1,0,1,1,0,1,0,1,1,1,0,1,0,1,0,0,1]];
-const zones = [["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","t","f","f","f","f","f","f","f","f"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","f","f","f","f","f","f","f","f"],["m","m","m","m","m","m","t","m","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","m","m","m","m","m","m","m","m"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["d","d","d","d","d","d","t","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"],["f","f","f","f","f","f","f","f","m","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d","d"]];
-let N = target.length, T = N / 3;
-const COLORS = { f:"#e03131", t:"#f08c00", m:"#7048e8", d:"#1c1e26" };
-const LIGHT = { f:"#ffe3e3", t:"#fff0d6", m:"#ece5ff", d:"#ffffff" };
-let pieces=[], selected=null, dragFrom=null;
-const $ = id => document.getElementById(id), board=$("board");
-
-const sub=(m,id)=>{
-  const ox=(id%3)*T, oy=Math.floor(id/3)*T;
-  return Array.from({length:T},(_,y)=>Array.from({length:T},(_,x)=>m[oy+y][ox+x]));
-};
-const rot1=m=>m.map((row,y)=>row.map((_,x)=>m[T-1-x][y]));
-const rot=(m,r)=>{for(let i=0;i<r;i++)m=rot1(m);return m};
-
-function assemble(){
-  const out=Array.from({length:N},()=>Array(N).fill(0));
-  pieces.forEach((p,pos)=>{
-    const m=rot(sub(target,p.id),p.rot), ox=(pos%3)*T, oy=Math.floor(pos/3)*T;
-    m.forEach((row,y)=>row.forEach((v,x)=>{out[oy+y][ox+x]=v;}));
-  });
-  return out;
-}
-const isSolved=()=>{
-  const a=assemble();
-  return a.every((row,y)=>row.every((v,x)=>v===target[y][x]));
-};
-function drawTile(canvas,p){
-  const bits=rot(sub(target,p.id),p.rot), zn=rot(sub(zones,p.id),p.rot), s=30, ctx=canvas.getContext("2d");
-  canvas.width=canvas.height=T*s;
-  const colored=$("zonesChk").checked;
-  for(let y=0;y<T;y++)for(let x=0;x<T;x++){
-    const z=zn[y][x];
-    ctx.fillStyle=bits[y][x]?(colored?COLORS[z]:"#111"):(colored?LIGHT[z]:"#fff");
-    ctx.fillRect(x*s,y*s,s,s);
-  }
-}
-function drawPreview(){
-  const q=4,size=N+2*q,c=$("preview"),ctx=c.getContext("2d");
-  c.width=c.height=size; ctx.fillStyle="#fff"; ctx.fillRect(0,0,size,size); ctx.fillStyle="#000";
-  assemble().forEach((row,y)=>row.forEach((v,x)=>{if(v)ctx.fillRect(x+q,y+q,1,1);}));
-}
-function render(){
-  board.innerHTML="";
-  pieces.forEach((p,pos)=>{
-    const d=document.createElement("div"); d.className="tile"+(selected===pos?" sel":""); d.draggable=true;
-    const cv=document.createElement("canvas"); drawTile(cv,p);
-    const b=document.createElement("button"); b.textContent="↻"; b.title="Tourner de 90°"; b.setAttribute("aria-label","Tourner la tuile");
-    b.onclick=e=>{e.stopPropagation();p.rot=(p.rot+1)%4;update();}; d.append(cv,b);
-    d.onclick=()=>{
-      if(selected===null)selected=pos; else {if(selected!==pos)swap(selected,pos);selected=null;} update();
-    };
-    d.ondragstart=e=>{dragFrom=pos;e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",pos);};
-    d.ondragover=e=>{e.preventDefault();d.classList.add("over");};
-    d.ondragleave=()=>d.classList.remove("over");
-    d.ondrop=e=>{e.preventDefault();if(dragFrom!==null&&dragFrom!==pos)swap(dragFrom,pos);dragFrom=null;selected=null;update();};
-    board.append(d);
-  });
-}
-function swap(a,b){[pieces[a],pieces[b]]=[pieces[b],pieces[a]];}
-function update(){
-  render(); drawPreview();
-  const st=$("status");
-  if(isSolved()){st.className="win";st.textContent="✅ Bravo ! Le QR est reconstitué."; }
-  else {st.className="";st.textContent="L'aperçu ne se scanne pas encore…";}
-}
-function shuffle(){
-  do{
-    const ids=[0,1,2,3,4,5,6,7,8];
-    for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]];}
-    pieces=ids.map(id=>({id,rot:Math.floor(Math.random()*4)}));
-  }while(isSolved());
-  selected=null; update();
-}
-function load(){ shuffle(); }
-$("newBtn").onclick=load;
-$("solveBtn").onclick=()=>{pieces=[0,1,2,3,4,5,6,7,8].map(id=>({id,rot:0}));selected=null;update();};
-$("zonesChk").onchange=update;
-load();
-</script>
+<script src="puzzle.js"></script>
 <script src="carousel.js"></script>
 </body>
 </html>
